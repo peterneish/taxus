@@ -15,12 +15,11 @@ $("#searchvalue").typeahead({
 					
 					rows.push(query_label);
 				});
-				//data = data.autoCompleteList;
-				//for(var i=0; i<data.length; i++){
-				//	rows[i] = data[i].matchedNames[0];
-				//}
-                		process(rows);
-            		});
+				data = data.autoCompleteList;
+				for(var i=0; i<data.length; i++){
+					rows[i] = data[i].matchedNames[0];
+				}
+            	});
         },
 		updater: function(query_label){
 			var rankString = mapped[query_label].rankString;
