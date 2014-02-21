@@ -32,9 +32,16 @@
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
-		  <ul class="nav navbar-nav pull-right">
-		   <li><a class="nav navbar-nav" href="http://twitter.com/peterneish">@peterneish</a></li>
-		 </ul> 
+		  <form class="navbar-form navbar-left" role="search">
+			<div class="form-group">
+			  <input type="text" id="searchvalue" class="form-control" placeholder="Search" autocomplete="off">
+			  <input type="hidden" id="searchtype" value="*">
+			</div>
+			<button type="submit" class="btn btn-default">Submit</button>
+		  </form>
+			<ul class="nav navbar-nav pull-right">
+			   <li><a class="nav navbar-nav" href="http://twitter.com/peterneish">@peterneish</a></li>
+			</ul> 
         </div><!--/.nav-collapse -->
       </div>
 	 
@@ -43,12 +50,17 @@
     <div class="container">
 
       <div class="starter-template">
-        <p class="lead">Explore the taxonomy of plants and animals.</p>
+        <!--<p class="lead">Explore the taxonomy of plants and animals.</p>-->
+		<div id="viz"/>
+		
       </div>
 
     </div><!-- /.container -->
 
-    <script src="app.js"></script>
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	<script src="typeahead.bundle.js"></script>
+	<script src="app.js"></script>
   </body>
 </html>
