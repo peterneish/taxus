@@ -1,4 +1,3 @@
-// stub
 $("#searchvalue").typeahead({
         minLength: 3,
 		items: 20,
