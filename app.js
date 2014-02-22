@@ -1,3 +1,15 @@
+// initialise bloodhound engine
+var engine = new Bloodhound({
+	name: 'taxa',
+	remote: 'http://bie.ala.org.au/search/auto.jsonp?q=%QUERY&limit=10&idxType=TAXON',
+	datumTokenizer: function(d){
+		return Bloodhound.tokenizers.whitespace(d.val);
+	},
+	queryTokenizer: Bloodhound.tokenizers.whitespace
+});
+
+	
+
 $("#searchvalue").typeahead({
         minLength: 3,
 		items: 20,
