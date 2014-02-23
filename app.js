@@ -26,6 +26,8 @@ var taxa = new Bloodhound({
 taxa.initialize();
 
 $("#searchvalue").typeahead(null, {
+    autoselect : true,
+    highlight  : true,
     displayKey: 'value',
     source: taxa.ttAdapter()
 });
@@ -33,7 +35,10 @@ $("#searchvalue").typeahead(null, {
 // this puts the guid into the guid field so that we can use that instead of th name string
 $("#searchvalue").on("typeahead:selected typeahead:autocompleted", function(e,datum) { 
 	$("#guid").val(datum.guid);
+	alert(" Hello" + $("#guid").val());
+	
 });
+
 
 // set up d3 stuff
 
