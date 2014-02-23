@@ -1,3 +1,5 @@
+// TypeAhead stuff
+
 // initialise bloodhound engine
 var taxa = new Bloodhound({
 	name: 'taxa',
@@ -11,7 +13,7 @@ var taxa = new Bloodhound({
 		filter: function(data) {
 
               var resultList = data.autoCompleteList.map(function (item) {
-              return {value : item.name }
+              return {value : item.matchedNames[0], guid : item.guid }
 
           });
           console.log(resultList);
@@ -27,3 +29,12 @@ $("#searchvalue").typeahead(null, {
     displayKey: 'value',
     source: taxa.ttAdapter()
 });
+
+// this puts the guid into the guid field so that we can use that instead of th name string
+$("#searchvalue").on("typeahead:selected typeahead:autocompleted", function(e,datum) { 
+	$("#guid").val(datum.guid);
+});
+
+// set up d3 stuff
+
+
