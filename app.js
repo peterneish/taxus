@@ -9,8 +9,8 @@ var taxa = new Bloodhound({
     },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
 	remote: {
-		url: 'http://bie.ala.org.au/search/auto.jsonp?q=%QUERY&limit=20&idxType=TAXON&callback=callback',
-		ajax: {dataType: 'jsonp', jsonpCallback: 'callback'},
+		url: 'http://bie.ala.org.au/search/auto.jsonp?q=%QUERY&limit=20&idxType=TAXON&callback=?',
+		ajax: {dataType: 'jsonp'},
 		filter: function(data) {
 
               var resultList = data.autoCompleteList.map(function (item) {
