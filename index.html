@@ -25,20 +25,24 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="#">Taxus</a>
+		  <form class="navbar-form navbar-left" role="search">
+			<div class="form-group">
+			  <input type="text" id="searchvalue" class="form-control" placeholder="enter name eg. Wombat"  autocomplete="off">
+			  <input type="hidden" id="searchtype" value="*">
+			  <input type="hidden" id="guid" value="*">
+			</div>
+		  </form>
         </div>
+		
+
+		
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
-		  <form class="navbar-form navbar-left" role="search">
-			<div class="form-group">
-			  <input type="text" id="searchvalue" class="form-control" placeholder="Search" autocomplete="off">
-			  <input type="hidden" id="searchtype" value="*">
-			  <input type="hidden" id="guid" value="*">
-			</div>
-		  </form>
+
 			<ul class="nav navbar-nav pull-right">
 			   <li><a class="nav navbar-nav" href="http://twitter.com/peterneish">@peterneish</a></li>
 			</ul> 
