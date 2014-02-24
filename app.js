@@ -17,7 +17,6 @@ var taxa = new Bloodhound({
               return {value : item.matchedNames[0], guid : item.guid }
 
           });
-          console.log(resultList);
           return resultList;
 
         }
@@ -36,11 +35,38 @@ $("#searchvalue").typeahead(null, {
 // this puts the guid into the guid field so that we can use that instead of th name string
 $("#searchvalue").on("typeahead:selected typeahead:autocompleted", function(e,datum) { 
 	$("#guid").val(datum.guid);
-	alert(" Hello" + $("#guid").val());
+	runViz(datum.guid);
 	
 });
 
 
 // set up d3 stuff
+var diameter = 960,
+    format = d3.format(",d"),
+    color = d3.scale.category20c();
+
+var bubble = d3.layout.pack()
+    .sort(null)
+    .size([diameter, diameter])
+    .padding(1.5);
+
+var svg = d3.select("#viz").append("svg")
+    .attr("width", diameter)
+    .attr("height", diameter)
+    .attr("class", "bubble");
+
+
+
+// the function that runs the visualisation
+function runViz(guid){
+	speciesurl = "http://bie.ala.org.au/ws/species/" + guid + ".json?callback=?";
+	$("<a />", {
+		href: speciesurl,
+		text: speciesurl
+		}).appendTo("#viz");
+	
+}
+
+
 
 
