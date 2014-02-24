@@ -18,7 +18,6 @@ var taxa = new Bloodhound({
 
           });
           return resultList;
-
         }
 	}		
 });
@@ -48,8 +47,8 @@ var width = 960,
 var color = d3.scale.category20();
 
 var force = d3.layout.force()
-    .linkDistance(10)
-    .linkStrength(2)
+    .charge(-120)
+    .linkDistance(30)
     .size([width, height]);
 
 var svg = d3.select("#viz").append("svg")
@@ -91,9 +90,8 @@ function runViz(guid){
 
 	  var link = svg.selectAll(".link")
 		  .data(links)
-		.enter().append("line")
-		  .attr("class", "link")
-		  ;
+		.enter().append("line").
+		 attr("class", "link");
 
 	  var node = svg.selectAll(".node")
 		  .data(nodes)

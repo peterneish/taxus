@@ -46,3 +46,13 @@ body {
   margin: 0;
 }
 
+/* styling of d3 elements */
+.node {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.link {
+  stroke: #999;
+  stroke-opacity: .6;
+}
