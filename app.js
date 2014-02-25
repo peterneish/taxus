@@ -41,14 +41,24 @@ $("#searchvalue").on("typeahead:selected typeahead:autocompleted", function(e,da
 
 // set up d3 stuff
 
-var width = 960,
-    height = 500;
+// calculate window size
+var w = window,
+    d = document,
+    e = d.documentElement,
+    g = d.getElementById("viz"),
+    x = g.clientWidth || w.innerWidth || e.clientWidth,
+    y = w.innerHeight|| e.clientHeight || g.clientHeight;
 
-var color = d3.scale.category20();
+var width = Math.max( x * 0.9, 400 ),  //width
+    height = Math.max( y * 0.9, 300 ); //height
+var colour = d3.scale.category20();
+var linktype = d3.scale.category20c();
+
+var circlesize = 20;
 
 var force = d3.layout.force()
-    .charge(-120)
-    .linkDistance(30)
+    .charge(-100)
+    .linkDistance(80)
     .size([width, height]);
 
 var svg = d3.select("#viz").append("svg")
@@ -72,12 +82,12 @@ function runViz(guid){
 	  var nodes = [];
 	  var  links = [];
 	  
-	  nodes.push({name: graph.taxonConcept.nameString});
+	  nodes.push({name: graph.taxonConcept.nameString, guid: graph.taxonConcept.guid});
 	  
 	  var i=1;
 	  graph.synonyms.forEach(function(link) {
 		links.push({source: 0, target: i++, value: link.relationship});		
-		nodes.push({ name: link.nameString} );
+		nodes.push({ name: link.nameString, guid: link.guid} );
 	  });
 	  
 	  console.log(links);
@@ -97,7 +107,8 @@ function runViz(guid){
 		  .data(nodes)
 		.enter().append("circle")
 		  .attr("class", "node")
-		  .attr("r", 5)
+		  .attr("r", 15)
+		  .style("fill", function(d) { return  colour(d.name); })
 		  .call(force.drag);
 
 	  node.append("title")
