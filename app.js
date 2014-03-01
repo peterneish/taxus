@@ -55,62 +55,63 @@ var colour = d3.scale.category20();
 var linkcolour = d3.scale.category10();
 
 var circlesize = 20;
+var nodes = [];
+var  links = [];
 
 var force = d3.layout.force()
+    .nodes(nodes)
+    .links(links)
     .gravity(.05)
     .distance(100)
     .charge(-100)
-    .size([width, height]);
+    .size([width, height])
+    .on("tick", tick);
 
 var svg = d3.select("#viz").append("svg")
     .attr("width", width)
     .attr("height", height);
 
-
-
+var node = svg.selectAll(".node"),
+    link = svg.selectAll(".link");
 
 
 // the function that runs the visualisation
 function runViz(guid){
 	speciesurl = "http://bie.ala.org.au/ws/species/" + guid + ".json?callback={callback}";
-	$("<a />", {
-		href: speciesurl,
-		text: speciesurl
-		}).appendTo("#viz");
 	
 	d3.jsonp(speciesurl, function(graph) {
-	  var guid = graph.taxonConcept.guid;
-	  var nodes = [];
-	  var  links = [];
 	  
-	  nodes.push({name: graph.taxonConcept.nameString, guid: graph.taxonConcept.guid});
+	  src= {name: graph.taxonConcept.nameString, guid: graph.taxonConcept.guid};
+	  nodes.push(src);
 	  
-	  var i=1;
-	  graph.synonyms.forEach(function(link) {
-		links.push({source: 0, target: i++, value: link.relationship});		
-		nodes.push({ name: link.nameString, guid: link.guid} );
+	  graph.synonyms.forEach(function(s) {
+		syn = { name: s.nameString, guid: s.guid};
+		nodes.push(syn);	
+		links.push({source: src, target: syn, value: link.relationship});		
 	  });
-	  
 
-	  force
-		  .nodes(nodes)
-		  .links(links)
-		  .start();
+	  start();
 
-	  var link = svg.selectAll(".link")
-		   	.data(links)
-			.enter().append("line").
+	});
+}
+
+
+function start() {
+
+  link = link.data(force.links(), function(d) { return d.source.guid + "-" + d.target.guid; ; });
+  link.enter().insert("line", ".node").
 		 	attr("class", "link").
 		 	attr("stroke-width", 5).
 		 	attr("stroke", function(d) { return linkcolour(d.value); });
+//  link = link.data(force.links(), function(d) { return d.source.guid + "-" + d.target.guid; });
+//  link.enter().insert("line", ".node").attr("class", "link");
+  link.exit().remove();
 
-	  var node = svg.selectAll("g.node")
-		  .data(nodes);
 
-	  node.enter().append("svg:g")
+  node = node.data(force.nodes(), function(d) { return d.guid;});
+  node.enter().append("svg:g")
 		.attr("class", "node")
 		.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-
 
 	  node.append("circle")
 		  .attr("class", "node")
@@ -126,19 +127,15 @@ function runViz(guid){
       		.text(function(d) { return d.name });
 
 	  node.call(force.drag);
-	  	
+  node.exit().remove();
 
-	force.on("tick", function() {
-    		link.attr("x1", function(d) { return d.source.x; })
-        	.attr("y1", function(d) { return d.source.y; })
-        	.attr("x2", function(d) { return d.target.x; })
-        	.attr("y2", function(d) { return d.target.y; });
-
-    		node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-  	});
-	});
+  force.start();
 }
 
-
-
-
+function tick() {
+  node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+  link.attr("x1", function(d) { return d.source.x; })
+      .attr("y1", function(d) { return d.source.y; })
+      .attr("x2", function(d) { return d.target.x; })
+      .attr("y2", function(d) { return d.target.y; });
+}
